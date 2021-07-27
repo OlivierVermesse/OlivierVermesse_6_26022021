@@ -2,6 +2,8 @@
 const mongoose = require('mongoose');
 //require est la commande pour importer EXPRESS
 const express = require("express");
+//creation de la variable qui import BODY-PARSER
+const bodyParser = require("body-parser")
 
 //import des fichiers JS du dossier ROUTES
 const usersRoutes = require("./routes/users");
@@ -32,8 +34,10 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'); // on dit qu'elle en tête le front a le droit de voir
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); //on dit quelles actions le front a le droit de faire
   next(); //ne pas oublier le next pour passer à la suivante
-// res.json({message: "OK recu"})
 });
+
+//ajout du middleware qui donne le format de ce bodyParser
+app.use(bodyParser.json());
 
 //ajout du chemin de la route que les js devront prendre
 app.use("/api/auth", usersRoutes);
