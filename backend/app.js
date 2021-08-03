@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require("express");
 const cors = require("cors");
+const path = require("path"); //import de path pour MAJ du chemin d'upload photo
 require('dotenv').config();
 
 //import des fichiers JS du dossier ROUTES
@@ -30,6 +31,9 @@ app.use((req, res, next) => {
 //ajout du middleware qui donne le format de ce bodyParser
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
+
+//permet de récupérer les images
+app.use("/images", express.static(path.join(__dirname, "images")))
 
 Source: https://prograide.com/pregunta/5098/bodyparser-est-deprecie-express-4
 app.use(cors());
