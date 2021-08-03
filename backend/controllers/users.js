@@ -1,10 +1,40 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const pwdFormat = require("password-validator");
+require('dotenv').config();
 
 const User = require("../models/Users");
 
+var pwdSchema = new pwdFormat();
+ 
+// Add properties to it
+pwdSchema
+.is().min(8)
+.is().max(50)
+.has().uppercase(1)
+.has().lowercase()
+.has().digits(1)
+.has().not().spaces()
+.is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
+ 
+// Validate against a password string
+console.log(pwdSchema.validate('validPASS123'));
+// => true
+console.log(pwdSchema.validate('invalidP ASS'));
+// => false
+ 
+// Get a full list of rules which failed
+console.log(pwdSchema.validate('joke', { list: true }));
+// => [ 'min', 'uppercase', 'digits' ]
+
+
 //controlleur pour API/auth/signIn
 exports.signup = (req, res, next) => {
+    console.log(pwdSchema.validate(req.body.password));
+    // Verification du schema du mot de passe.
+    if(pwdSchema.validate(req.body.password) == false) {
+        return res.status(400).json({message: 'format mot de passe incorrect'})
+    }
     bcrypt.hash(req.body.password, 10) //on récup le pwd du front et on le hash x10 // + on hash + c'est long
         .then(hash => { //on récup le pwd hashé
             const user = new User({ //creation d'une nouvelle instance que l'on ajoute à la variable de l'import de la BDD grace a NEW
@@ -34,8 +64,8 @@ exports.login = (req, res, next) => {
                         userId: user._id, //on renvoie un objet avec l'ID en BDD de ce user
                         token: jwt.sign( //une réponse de type ROKEN
                             { userId: user._id }, //va permettre de comparer avec le userId de la ligne de dessus pour être certain que le même utilisateur
-                            "RANDOM_TOKEN_SECRET", //code secret contenant le token
-                            { expiresIn: "24h" } //validité du token envoyé au front pour validation
+                            `${process.env.SECRET_TOKEN}`, //code secret contenant le token
+                            { expiresIn: "12h" } //validité du token envoyé au front pour validation
                         )
                     });
                 })
@@ -43,11 +73,4 @@ exports.login = (req, res, next) => {
 
         })
         .catch(error => res.status(500).json({ error })); //erreur si la connexion à la BDD a échoué pour vérifier // Ce n'est pas si utilisateur non trouvé
-};
-
-//controlleur pour API/auth
-exports.findAllUsers = (req, res, next) => {
-    User.find().select("-password") //en mettant .select("-xxxx") permet de ne pas afficher le password
-        .then(Users => res.status(200).json(Users))
-        .catch(error => res.status(400).json({ error: error }));
 };
