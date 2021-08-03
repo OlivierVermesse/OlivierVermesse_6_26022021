@@ -16,17 +16,6 @@ pwdSchema
 .has().digits(1)
 .has().not().spaces()
 .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
- 
-// Validate against a password string
-console.log(pwdSchema.validate('validPASS123'));
-// => true
-console.log(pwdSchema.validate('invalidP ASS'));
-// => false
- 
-// Get a full list of rules which failed
-console.log(pwdSchema.validate('joke', { list: true }));
-// => [ 'min', 'uppercase', 'digits' ]
-
 
 //controlleur pour API/auth/signIn
 exports.signup = (req, res, next) => {

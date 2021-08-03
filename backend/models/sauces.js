@@ -12,8 +12,8 @@ const saucesSchema = mongoose.Schema ({ //grace a Schema on va pouvoir créer la
     heat: {type: Number, required:true},
     likes: {type: Number},
     dislikes: {type: Number},
-    usersLiked: {type: String},
-    unersDisliked: {type: String},
+    usersLiked: {type: [String]},
+    unersDisliked: {type: [String]},
     
 });
 

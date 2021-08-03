@@ -5,6 +5,7 @@ require('dotenv').config();
 
 //import des fichiers JS du dossier ROUTES
 const usersRoutes = require("./routes/users");
+const saucesRoutes = require("./routes/sauces");
 
 //creation de la variable qui créée l'application EXPRESS
 const app = express();
@@ -35,5 +36,6 @@ app.use(cors());
 
 //ajout du chemin de la route que les js devront prendre
 app.use("/api/auth", usersRoutes);
+app.use('/api/sauces', saucesRoutes)
 
 module.exports = app;
