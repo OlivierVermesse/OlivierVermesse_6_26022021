@@ -40,6 +40,6 @@ app.use(cors());
 
 //ajout du chemin de la route que les js devront prendre
 app.use("/api/auth", usersRoutes);
-app.use('/api/sauces', saucesRoutes)
+app.use("/api/sauces", saucesRoutes)
 
 module.exports = app;
