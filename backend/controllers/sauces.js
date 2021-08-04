@@ -1,5 +1,5 @@
 const Sauce = require("../models/sauces");
-// const fs = require('fs');
+const fs = require('fs');
 
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
@@ -28,16 +28,24 @@ exports.newSauce = (req, res, next) => {
 
 exports.updateSauce = (req, res, next) => {
     const sauceObject = req.file ? //req.file permet de faire controle si il y a nouvelle image ou pas
-    { ...JSON.parse(req.body.sauce), //on recup le format objet pour le mettre en format JSON
-      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` //on récup le nouveau fichier
-     } : { ...req.body } //si pas de nouveau fichier, on récup le body directement
-     Sauce.updateOne({ _id: req.params.id}, { ...sauceObject, _id: req.params.id}) //recup de la variable sauceObjet qui gére le format selon si nouveau fichier ou pas
-    //  Sauce.updateOne({ _id: req.params.id}, { ...req.body, _id: req.params.id}) //updateOne = ({ID d'entrée}, {recup des champs pour modif, id unique})
-      .then(sauce => res.status(200).json({message: "objet modifié !"}))
-      .catch(error => res.status(400).json({error : error }));
-  };
+        {
+            ...JSON.parse(req.body.sauce), //ALORS on recup le format objet pour le mettre en format JSON
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : { ...req.body } //SINON si pas de nouveau fichier, on récup le body directement
+    Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+        .then(sauce => res.status(200).json({ message: "objet modifié !" }))
+        .catch(error => res.status(400).json({ error: error }));
+};
 
-  
-
-
-  
+exports.deleteSauce = (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id }) //on recherche l'id du produit
+        .then(sauce => {
+            const filename = sauce.imageUrl.split("/images/")[1]; //on split le nom du fichier qui a tout le temps /images/ ca fera un tableau avec la partie avant et la partie après et on recup la partie après
+            fs.unlink(`images/${filename}`, () => { //unlink va supprimer le fichier grace au lien indiqué
+                Sauce.deleteOne({ _id: req.params.id }) //pas besoin d'autre info car on delete
+                    .then(sauce => res.status(200).json({ message: "objet supprimé !" }))
+                    .catch(error => res.status(400).json({ error: error }));
+            })
+        })
+        .catch(error => res.status(500).json({ error }));
+};
