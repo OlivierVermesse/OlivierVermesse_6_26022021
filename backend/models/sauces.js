@@ -13,7 +13,7 @@ const saucesSchema = mongoose.Schema ({ //grace a Schema on va pouvoir créer la
     likes: {type: Number},
     dislikes: {type: Number},
     usersLiked: {type: [String]},
-    unersDisliked: {type: [String]},
+    usersDisliked: {type: [String]},
 });
 
 //export du model via le module EXPORTS
