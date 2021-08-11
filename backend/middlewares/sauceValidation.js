@@ -8,7 +8,7 @@ exports.nameValidator = [
   }),
   validate({
     validator: 'matches',
-    arguments: /^[a-z\d\-_\s]+$/i,
+    arguments: /^[a-zA-Z0-9 -]+$/,
     message: "Vous ne pouvez utiliser que des chiffres et des lettres",
   }),
 ];

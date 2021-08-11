@@ -10,31 +10,31 @@ require('dotenv').config();
 const usersRoutes = require("./routes/users");
 const saucesRoutes = require("./routes/sauces");
 
-//creation de la variable qui créée l'application EXPRESS & Herlmet pour sécuriser les données
+//creation de la variable qui créée l'application EXPRESS & Helmet pour sécuriser les données
 const app = express();
 app.use(helmet());
 app.use(nocache());
 
 mongoose.connect(process.env.SECRET_DB_USERS,
-  { useNewUrlParser: true,
-    useCreateIndex:true,
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true,
     useUnifiedTopology: true
   })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !')
-);
+  );
 
 //ajout de cette application afin de dire à l'API qu'elle est public et les actions possible à faire par le front
-app.use((req, res, next) => { 
+app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
 
-
 //ajout du middleware qui donne le format de ce bodyParser
-app.use(express.json()); 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //permet de récupérer les images
