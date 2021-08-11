@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const express = require("express");
+const helmet = require('helmet');
+const nocache = require("nocache");
 const cors = require("cors");
 const path = require("path"); //import de path pour MAJ du chemin d'upload photo
 require('dotenv').config();
@@ -8,8 +10,10 @@ require('dotenv').config();
 const usersRoutes = require("./routes/users");
 const saucesRoutes = require("./routes/sauces");
 
-//creation de la variable qui créée l'application EXPRESS
+//creation de la variable qui créée l'application EXPRESS & Herlmet pour sécuriser les données
 const app = express();
+app.use(helmet());
+app.use(nocache());
 
 mongoose.connect(process.env.SECRET_DB_USERS,
   { useNewUrlParser: true,
@@ -27,6 +31,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
+
 
 //ajout du middleware qui donne le format de ce bodyParser
 app.use(express.json()); 
