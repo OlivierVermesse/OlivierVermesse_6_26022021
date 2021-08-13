@@ -21,7 +21,6 @@ router.post("/signup", [
 router.post("/login", [
     body('email').isEmail(),
 ], sanitize,
- userCtrl.login);
-    // max.limiter, userCtrl.login);
+    max.limiter, userCtrl.login);
 
 module.exports = router;
