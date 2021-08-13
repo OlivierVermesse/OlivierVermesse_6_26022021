@@ -41,7 +41,6 @@ app.use(express.urlencoded({ extended: true }));
 //permet de récupérer les images
 app.use("/images", express.static(path.join(__dirname, "images")))
 
-Source: https://prograide.com/pregunta/5098/bodyparser-est-deprecie-express-4
 app.use(cors());
 
 //ajout du chemin de la route que les js devront prendre
