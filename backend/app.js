@@ -15,8 +15,7 @@ const app = express();
 app.use(helmet());
 app.use(nocache());
 
-// mongoose.connect(process.env.SECRET_DB_USERS,
-mongoose.connect(process.env.SECRET_DB_ADMIN,
+mongoose.connect(process.env.SECRET_DB_USERS,
   {
     useNewUrlParser: true,
     useCreateIndex: true,
