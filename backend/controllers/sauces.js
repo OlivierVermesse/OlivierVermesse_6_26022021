@@ -1,7 +1,6 @@
 const Sauce = require("../models/sauces");
 const fs = require('fs');
 
-
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
         .then(sauces => res.status(200).json(sauces))
@@ -30,12 +29,22 @@ exports.newSauce = (req, res, next) => {
 };
 
 exports.updateSauce = (req, res, next) => {
-    
-    const sauceObject = req.file ? //req.file permet de faire controle si il y a nouvelle image ou pas
-        {
-            ...JSON.parse(req.body.sauce), //ALORS on recup le format objet pour le mettre en format JSON
-            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        } : { ...req.body } //SINON si pas de nouveau fichier, on récup le body directement
+    let sauceObject = {};
+    req.file ? (//req.file permet de faire controle si il y a nouvelle image ou pas
+        // Si la modification de l'image
+        Sauce.findOne({
+            _id: req.params.id
+        }).then((sauce) => {
+            // On supprime l'ancienne image du serveur
+            const filename = sauce.imageUrl.split('/images/')[1]
+            fs.unlinkSync(`images/${filename}`)
+        }),
+        sauceObject = {
+            // On modifie les données et on ajoute la nouvelle image
+            ...JSON.parse(req.body.sauce),
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename
+                }`,
+        }) : { ...req.body } //SINON si pas de nouveau fichier, on récup le body directement
     Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
         .then(sauce => res.status(200).json({ message: "objet modifié !" }))
         .catch(error => res.status(400).json({ error: error }));
