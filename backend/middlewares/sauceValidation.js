@@ -4,7 +4,7 @@ exports.nameValidator = [
   validate({
     validator: 'isLength',
     arguments: [3, 50],
-    message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters',
+    message: "Le nom doit etre compris entre {ARGS[0]} et {ARGS[1]} caractères",
   }),
   validate({
     validator: 'matches',
@@ -17,7 +17,7 @@ exports.manufacturerValidator = [
   validate({
     validator: 'isLength',
     arguments: [3, 50],
-    message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters',
+    message: "Le nom doit etre compris entre {ARGS[0]} et {ARGS[1]} caractères",
   }),
   validate({
     validator: 'matches',
@@ -30,7 +30,12 @@ exports.descriptionValidator = [
   validate({
     validator: 'isLength',
     arguments: [3],
-    message: 'Name should be between {ARGS[0]} characters',
+    message: "La description est au moins faire {ARGS[0]} caractères",
+  }),
+  validate({
+    validator: 'matches',
+    arguments: /^[a-zA-Z0-9 \]\[!"#$%&'()*+,./:;<>?@\^_`{|}~-]+$/,
+    message: "Vous ne pouvez pas utiliser certains caractères spéciaux",
   }),
 ];
 
@@ -38,7 +43,7 @@ exports.pepperValidator = [
   validate({
     validator: 'isLength',
     arguments: [3, 50],
-    message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters',
+    message: "Vous ne pouvez utiliser que des chiffres et des lettres",
   }),
   validate({
     validator: 'matches',

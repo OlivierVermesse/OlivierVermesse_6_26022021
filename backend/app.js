@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const express = require("express");
 const helmet = require('helmet');
-const nocache = require("nocache");
 const cors = require("cors");
 const path = require("path"); //import de path pour MAJ du chemin d'upload photo
 require('dotenv').config();
@@ -13,7 +12,6 @@ const saucesRoutes = require("./routes/sauces");
 //creation de la variable qui créée l'application EXPRESS & Helmet pour sécuriser les données
 const app = express();
 app.use(helmet());
-app.use(nocache());
 
 mongoose.connect(process.env.SECRET_DB_USERS,
   {
@@ -27,7 +25,6 @@ mongoose.connect(process.env.SECRET_DB_USERS,
 
 //ajout de cette application afin de dire à l'API qu'elle est public et les actions possible à faire par le front
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();

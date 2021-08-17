@@ -1,6 +1,7 @@
 const Sauce = require("../models/sauces");
 const fs = require('fs');
 
+
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
         .then(sauces => res.status(200).json(sauces))
@@ -29,6 +30,7 @@ exports.newSauce = (req, res, next) => {
 };
 
 exports.updateSauce = (req, res, next) => {
+    
     const sauceObject = req.file ? //req.file permet de faire controle si il y a nouvelle image ou pas
         {
             ...JSON.parse(req.body.sauce), //ALORS on recup le format objet pour le mettre en format JSON

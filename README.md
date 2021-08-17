@@ -1,7 +1,7 @@
+# INFORMATION : la version du projet 6 est celle du 9 juin 2021
 ## Frontend
-1. Cloner le projet depuis Githup <https://github.com/OpenClassrooms-Student-Center/dwj-projet6>
-2. Installer NPM avec la commande : NPM install
-3. Installer node-sass à part
+1. Installer les dépendances du frontend avec la commande : NPM install
+2. Installer node-sass à part
 
 Le projet a été généré avec Angular version 7.0.2. Pour vérifier votre version utiliser "angular -v"
 
@@ -12,15 +12,9 @@ Une fois, les étapes précédentes réalisées, POUR EXECUTER LE FRONTEND, VOUS
 Lorsque le serveur est executé, aller dans votre navigateur et lancer l'adresse: http://localhost:4200 
 
 ## Backend
-1. Créer un fichier .env a la racine du dossier Backend avec les informations ci-dessous :
-- SECRET_DB_ADMIN="indiquer le chemin MongoDb du login ADMIN"
-- SECRET_DB_USERS="indiquer le chemin MongoDb du login USERS"
-- SECRET_TOKEN="indiquer la clé TOKEN de votre choix"
-	
-2. Exécuter "npm install" pour lancer le server nodejs
+1. Exécuter "npm install" pour installer les dépendances du backend
 (la version de nodejs doit être en version "v14.17.3" pour vérifier votre version utiliser "node -v") 
 
-	
 POUR EXECUTER LE BACKEND, VOUS DEVEZ :
 - Ouvrir un terminal depuis le dossier "backend"
 - puis executer : nodemon server
