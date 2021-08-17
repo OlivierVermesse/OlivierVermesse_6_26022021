@@ -64,7 +64,7 @@ exports.signup = (req, res, next) => {
             });
             user.save() //on recup la const "user" pour la mettre dans la BDD
                 .then(() => res.status(201).json({ message: "Utilisateur créé !" })) //action si OK
-                .catch(error => res.status(400).json({ error })) //action si erreur
+                .catch(error => res.status(500).json({ error })) //action si erreur
         })
         .catch(error => res.status(500).json({ error }));
 };
