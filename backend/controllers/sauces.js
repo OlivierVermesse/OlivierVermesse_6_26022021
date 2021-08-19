@@ -44,7 +44,7 @@ exports.updateSauce = (req, res, next) => {
             ...JSON.parse(req.body.sauce),
             imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename
                 }`,
-        }) : { ...req.body } //SINON si pas de nouveau fichier, on récup le body directement
+        }) : ( sauceObject = { ...req.body } ) //SINON si pas de nouveau fichier, on récup le body directement
     Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
         .then(sauce => res.status(200).json({ message: "objet modifié !" }))
         .catch(error => res.status(500).json({ error: error }));
